@@ -20,4 +20,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         listOfMoviesRouter.showListOfMovies(window: window)
     }
 }
-// prueba
