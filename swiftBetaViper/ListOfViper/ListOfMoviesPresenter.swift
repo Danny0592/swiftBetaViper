@@ -13,7 +13,10 @@ protocol ListOfMoviesUI: AnyObject {
 
 class ListOfMoviesPresenter {
     var ui: ListOfMoviesUI?
+    
     private let listOfMoviesInteractor: ListOfMoviewsInteractor
+    var models: [PopularMovieEntity] = []
+    
 
     init(listOfMoviesInteractor: ListOfMoviewsInteractor = ListOfMoviewsInteractor()) {
         self.listOfMoviesInteractor = listOfMoviesInteractor
@@ -21,12 +24,13 @@ class ListOfMoviesPresenter {
     
     func onViewAppear() {
         Task {
-            let models = await listOfMoviesInteractor.getListOfMovies()
-            ui?.update(movies: models.results)
+            models = await listOfMoviesInteractor.getListOfMovies().results
+            ui?.update(movies: models)
         }
     }
 }
 
+// CODIGO ORIGINAL
 // protocol ListOfMoviesUI: AnyObject {
 //     func update(movies: [PopularMovieEntity])
 // }
