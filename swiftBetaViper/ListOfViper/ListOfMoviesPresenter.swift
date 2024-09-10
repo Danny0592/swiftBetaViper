@@ -7,25 +7,35 @@
 
 import Foundation
 
-protocol ListOfMoviesUI: AnyObject {
-    func update(movies: [PopularMovieEntity])
+protocol ListOfMoviesPresentable: AnyObject {
+    var ui: ListOfMoviesUI? { get }
+    var viewModels: [viewModel] { get }
+    func onViewAppear()
 }
 
-class ListOfMoviesPresenter {
-    var ui: ListOfMoviesUI?
+protocol ListOfMoviesUI: AnyObject {
+    func update(movies: [viewModel])
+}
+
+class ListOfMoviesPresenter: ListOfMoviesPresentable {
+    weak  var ui: ListOfMoviesUI?
     
-    private let listOfMoviesInteractor: ListOfMoviewsInteractor
-    var models: [PopularMovieEntity] = []
+    private let listOfMoviesInteractor: ListOfMoviewsInteractortable
+    var viewModels: [viewModel] = []
+    private let mapper: Mapper
     
 
-    init(listOfMoviesInteractor: ListOfMoviewsInteractor = ListOfMoviewsInteractor()) {
+    init(listOfMoviesInteractor: ListOfMoviewsInteractortable,
+         mapper: Mapper = Mapper()) {
         self.listOfMoviesInteractor = listOfMoviesInteractor
+        self.mapper = mapper
     }
     
     func onViewAppear() {
         Task {
-            models = await listOfMoviesInteractor.getListOfMovies().results
-            ui?.update(movies: models)
+            let models = await listOfMoviesInteractor.getListOfMovies().results
+            viewModels = models.map(mapper.map(entity:))
+            ui?.update(movies: viewModels)
         }
     }
 }

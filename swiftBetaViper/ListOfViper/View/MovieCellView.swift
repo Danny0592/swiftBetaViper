@@ -23,6 +23,7 @@ class MovieCellView: UITableViewCell {
     let movieName: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
+        label.textColor = .black
         label.font = .systemFont(ofSize: 32, weight: .bold, width: .compressed)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -77,8 +78,8 @@ class MovieCellView: UITableViewCell {
     }
     
     
-    func configure(model: PopularMovieEntity) {
-        movieImageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w200" + model.imageURL))
+    func configure(model: viewModel) {
+        movieImageView.kf.setImage(with: model.imageURL)
         movieName.text = model.title
         movieDescription.text = model.overview
     }

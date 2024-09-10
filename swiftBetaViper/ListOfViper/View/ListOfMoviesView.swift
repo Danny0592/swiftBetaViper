@@ -19,9 +19,10 @@ class ListOfMoviesView: UIViewController {
         
     }()
     
-    var presenter: ListOfMoviesPresenter?
+    private let presenter: ListOfMoviesPresentable
     
-    init() {
+    init(presenter: ListOfMoviesPresentable) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder: NSCoder) {
@@ -32,7 +33,7 @@ class ListOfMoviesView: UIViewController {
         
         view.backgroundColor = .blue
         setupTableView()
-        presenter?.onViewAppear()
+        presenter.onViewAppear()
     }
     
     private func setupTableView() {
@@ -51,13 +52,13 @@ class ListOfMoviesView: UIViewController {
 
 extension ListOfMoviesView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter!.models.count
+        presenter.viewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCellView", for: indexPath) as! MovieCellView
-        cell.backgroundColor = .black
-        let model = presenter!.models[indexPath.row]
+        cell.backgroundColor = .white
+        let model = presenter.viewModels[indexPath.row]
         
         cell.configure(model: model)
         return cell
@@ -65,7 +66,7 @@ extension ListOfMoviesView: UITableViewDataSource {
 }
 
 extension ListOfMoviesView: ListOfMoviesUI {
-    func update(movies: [PopularMovieEntity]) {
+    func update(movies: [viewModel]) {
         print("Datos recibidos \(movies)")
         DispatchQueue.main.async {
             self.moviesTableView.reloadData()
