@@ -18,8 +18,8 @@ class DetailRouter: DetailRouting {
                     withMovieId movieId: String) {
         let interactor = DetailInteractor()
         let  presenter = DetailPresenter(movieId: movieId,
-                                               interactor: interactor,
-                                               mapper: MapperDetailMovieViewModel())
+                                         interactor: interactor,
+                                         mapper: MapperDetailMovieViewModel())
         let view = DetailView(presenter: presenter)
         presenter.ui = view
         
