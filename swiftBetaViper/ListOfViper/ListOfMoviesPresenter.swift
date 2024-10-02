@@ -23,12 +23,14 @@ class ListOfMoviesPresenter: ListOfMoviesPresentable {
     private let listOfMoviesInteractor: ListOfMoviewsInteractortable
     var viewModels: [viewModel] = []
     private let mapper: Mapper
-    
+    private let router: ListOfMoviesRouting
 
     init(listOfMoviesInteractor: ListOfMoviewsInteractortable,
-         mapper: Mapper = Mapper()) {
+         mapper: Mapper = Mapper(),
+         router: ListOfMoviesRouting) {
         self.listOfMoviesInteractor = listOfMoviesInteractor
         self.mapper = mapper
+        self.router = router
     }
     
     func onViewAppear() {
