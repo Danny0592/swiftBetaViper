@@ -10,7 +10,9 @@ import Foundation
 protocol ListOfMoviesPresentable: AnyObject {
     var ui: ListOfMoviesUI? { get }
     var viewModels: [viewModel] { get }
+    
     func onViewAppear()
+    func onTapCell(atIndex: Int)
 }
 
 protocol ListOfMoviesUI: AnyObject {
@@ -22,6 +24,7 @@ class ListOfMoviesPresenter: ListOfMoviesPresentable {
     
     private let listOfMoviesInteractor: ListOfMoviewsInteractortable
     var viewModels: [viewModel] = []
+    private var models: [PopularMovieEntity] = []
     private let mapper: Mapper
     private let router: ListOfMoviesRouting
 
@@ -35,10 +38,15 @@ class ListOfMoviesPresenter: ListOfMoviesPresentable {
     
     func onViewAppear() {
         Task {
-            let models = await listOfMoviesInteractor.getListOfMovies().results
+            models = await listOfMoviesInteractor.getListOfMovies().results
             viewModels = models.map(mapper.map(entity:))
             ui?.update(movies: viewModels)
         }
+    }
+    
+    func onTapCell(atIndex: Int) {
+        let movieId = models[atIndex].id
+        router.showDetailMovie(withMovieId: movieId.description)
     }
 }
 

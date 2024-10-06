@@ -19,3 +19,15 @@ class DetailInteractor: DetailInteractable {
         return try! JsonDecoder.decode(DetailMovieEntity.self, from: data)
     }
 }
+
+/*
+ class DetailInteractor {
+     func getDetailMovie(withId id: String) async -> DetailMovieEntity {
+         let url = URL(string: "https://api.themoviedb.org/3/movie/\(id)?api_key=02face8651c1fbb596638eaa99e07790")!
+         let (data, _) = try! await URLSession.shared.data(from: url)
+         let jsonDecoder = JSONDecoder()
+         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+         return try! jsonDecoder.decode(DetailMovieEntity.self, from: data)
+     }
+ }
+ */

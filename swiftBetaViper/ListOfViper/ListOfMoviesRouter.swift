@@ -21,9 +21,11 @@ class ListOfMoviesRouter: ListOfMoviesRouting {
     
     
     func showListOfMovies(window: UIWindow?) {
+        self.detailRouter = DetailRouter()
         let interactor = ListOfMoviewInteractor()
         //        let interactor = ListOfMoviesInteractorMock()
-        let presenter = ListOfMoviesPresenter(listOfMoviesInteractor: interactor)
+        let presenter = ListOfMoviesPresenter(listOfMoviesInteractor: interactor,
+                                              router: self)
         
         listOfMoviesView = ListOfMoviesView(presenter: presenter)
         presenter.ui = listOfMoviesView
